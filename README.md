@@ -2,6 +2,9 @@
 
 This repository contains building blocks and examples to help you build your own Internal Developer Platform.
 
+> **This is a fork of [`cnoe-io/stacks`](https://github.com/cnoe-io/stacks).** Changes that exist here and not upstream
+> are listed in **[LOCAL-CHANGES.md](./LOCAL-CHANGES.md)**. Read it before rebasing onto upstream.
+
 ## Getting Started
 
 ### Install idpbuilder

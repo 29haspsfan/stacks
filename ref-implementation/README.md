@@ -27,8 +27,12 @@ and be configured with the new host and port. you can use the [replace.sh](repla
 
 ```bash
 idpbuilder create --use-path-routing \
-  --package https://github.com/cnoe-io/stacks//ref-implementation
+  --package https://github.com/29haspsfan/stacks//ref-implementation
 ```
+
+**_NOTE:_** the command above points at **this fork**, not at `cnoe-io/stacks`. The fork carries a fix without which
+Backstage never starts on an arm64 (Apple Silicon) machine. See [LOCAL-CHANGES.md](../LOCAL-CHANGES.md) for the symptom,
+the root cause and how to repair a cluster that already hit it.
 
 This will take ~6 minutes for everything to come up. To track the progress, you can go to the [ArgoCD UI](https://cnoe.localtest.me:8443/argocd/applications).
 
