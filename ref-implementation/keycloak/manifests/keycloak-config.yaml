@@ -234,16 +234,28 @@ spec:
                 --data-urlencode "client_id=admin-cli" \
                 ${KEYCLOAK_URL}/realms/master/protocol/openid-connect/token | jq -e -r '.access_token')
                 
+              KUBECTL_ARCH=$(dpkg --print-architecture)
+              curl -sS --fail-with-body -LO "https://dl.k8s.io/release/v1.28.3/bin/linux/${KUBECTL_ARCH}/kubectl"
+              chmod +x kubectl
+              ./kubectl version --client > /dev/null
+
               set +e
-              
+
               curl --fail-with-body -H "Authorization: bearer ${KEYCLOAK_TOKEN}"  "${KEYCLOAK_URL}/admin/realms/cnoe"  &> /dev/null
-              if [ $? -eq 0 ]; then
+              REALM_EXISTS=$?
+              ./kubectl -n keycloak get secret keycloak-clients &> /dev/null
+              CLIENTS_SECRET_EXISTS=$?
+
+              if [ $REALM_EXISTS -eq 0 ] && [ $CLIENTS_SECRET_EXISTS -eq 0 ]; then
                 exit 0
               fi
+
+              if [ $REALM_EXISTS -eq 0 ]; then
+                echo "cnoe realm exists but the keycloak-clients secret is missing: a previous run was interrupted, recreating the realm"
+                curl -sS --fail-with-body -H "Authorization: bearer ${KEYCLOAK_TOKEN}" -X DELETE "${KEYCLOAK_URL}/admin/realms/cnoe" &> /dev/null
+              fi
+
               set -e
-              
-              curl -sS -LO "https://dl.k8s.io/release/v1.28.3//bin/linux/amd64/kubectl"
-              chmod +x kubectl
               
               echo "creating cnoe realm and groups"
               
