@@ -7,6 +7,7 @@ waiting to happen.
 | Date       | Area                          | Change                                                 | Upstream status  |
 | ---------- | ----------------------------- | ------------------------------------------------------ | ---------------- |
 | 2026-08-25 | `ref-implementation/keycloak` | Download `kubectl` for the node's own CPU architecture | Not reported yet |
+| 2026-09-26 | `CLAUDE.md`                   | Agent guide: the lab's packages go in `homelab/`       | Fork-only        |
 
 ## 2026-08-25 - Keycloak config job downloaded an amd64 `kubectl` on arm64 nodes
 
