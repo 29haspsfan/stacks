@@ -17,14 +17,14 @@ waiting to happen.
 On an Apple Silicon (arm64) machine, `backstage` and `argo-workflows` never leave `OutOfSync` / `Degraded`, and the
 `backstage` namespace has no pods at all. ArgoCD reports:
 
-```text
-one or more synchronization tasks completed unsuccessfully due to application controller sync timeout
+```shell
+$ one or more synchronization tasks completed unsuccessfully due to application controller sync timeout
 ```
 
 The Backstage `ExternalSecret` explains itself more clearly:
 
-```text
-error retrieving secret at .data[0], key: keycloak-clients, err: secrets "keycloak-clients" not found
+```shell
+$ error retrieving secret at .data[0], key: keycloak-clients, err: secrets "keycloak-clients" not found
 ```
 
 Meanwhile the Keycloak `config` Job reports **success**, which is what makes this confusing.
@@ -44,7 +44,7 @@ happily saves the error page as a file named `kubectl`. The script then ran `./k
 ./kubectl: line 1: syntax error near unexpected token `<'
 ```
 
-That happens at the **last** step, after the realm, clients, groups and users are all created, but *before* the script
+That happens at the **last** step, after the realm, clients, groups and users are all created, but _before_ the script
 writes the `keycloak-clients` secret that Backstage and Argo Workflows read their OIDC credentials from.
 
 A second bug then hid the first. The top of the script had an "have I already run?" guard:
